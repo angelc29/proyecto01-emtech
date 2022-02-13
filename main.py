@@ -1,4 +1,7 @@
 from lifestore_file import lifestore_searches, lifestore_sales, lifestore_products
+from datetime import datetime as dt
+#import funciones #De esta manera hay que anteponer 'funciones' antes de usar cada una
+from funciones import *
 """
 La info de lifestore_file:
 
@@ -7,126 +10,16 @@ lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund (1 for
 lifestore_products = [id_product, name, price, category, stock]
 """
 
-# # # PUNTO 1 # # #
-# -> Toda lista generada con resultados puede ser añadida a la lista de products o una copia
-# 1.1 Generar listado de 5 productos con mayores ventas 
-#       Obtener la cantidad de ventas(sales) de 1 producto
-#       Obtener una lista con la cantidad de ventas de todos los productos
-#       Ordenar esa lista de mayor a menor y obtener los nombres de 5 productos    
-# 1.2 Generar listado de 5 productos con mayores busquedas
-#       Obtener la cantidad de busquedas(searches) de 1 producto
-#       Obtener la cantidad de busquedas de todos los productos 
-#       Ordenar esa lista de mayor a menor y capturar los 10 primeros productos
-#
-# 2.1 Generar listado con los 5 productos con menores ventas, esto por categoria
-#       Usar los resultados de 1.1
-#       Generar clusteres por categoria
-#       Ordenar cada cluster de mayor a menor de acuerdo a las ventas(n sales) 
-#       Mostrar los ultimos 5 productos de cada cluster        
-# 2.2 Generar listado con los 10 productos con menores busquedas, esto por categoria
-#       Usar los resultados de 1.2
-#       Generar clusteres por categoria
-#       Ordenar cada cluster de mayor a menor de acuerdo a las busquedas(n searches)
-#       Mostrar los ultimos 10 productos de cada cluster    
-#   *Probablemente no se alcance el numero solicitado de productos a mostrar en los puntos de 2.x 
-
-# Resuelve el punto 1.1
-def ventasTop5():
-    # Una copia de los productos para concatenar como columna al numero de ventas
-    ventas = lifestore_products.copy()
-    # Recorre la lista de productos
-    for i,product in enumerate(lifestore_products):
-        # Obtiene id de un producto y se crea la variable para sumar sus ventas
-        id_prod=product[0]      
-        numVentas = 0
-        # Se recorren las ventas buscando al producto en cuestion y se suma el numero de apariciones
-        for sale in lifestore_sales:
-            if id_prod == sale[1]:
-                numVentas+=1
-        # Se concatena el numero de ventas con el producto analizado
-        ventas[i].append(numVentas)
-    # Se ordena de acuerdo al numero de ventas que tuvo cada producto
-    ventas=sorted(ventas,reverse=True, key=lambda x:x[5])
-    # Imprime los 5 productos con mas ventas (apariciones en lista de ventas)
-    return ventas[:5] 
-
-cincoVentas = ventasTop5()
-for v in cincoVentas:
-        print(f"Las ventas del producto {v[1]} fueron {v[5]}")
-
-# # # PUNTO 2 # # #
-# 1. Generar 2 listados de 5 productos con las mejores y peores reseñas
-#   *Considerar productos con devolucion
-#   *No considerar productos con 0 de reseña
-#       Obtener la reseña de 1 producto
-#           Se capturan las ventas de 1 producto
-#               De la lista de ventas se obtiene cada ventas de acuerdo a la id del producto   
-#           Se obtienen las reseñas de estas ventas
-#           Se obtiene un promedio
-#       Obtener la reseña de todos los productos iterando la funcion que obtiene la reseña general            
-#       Generar lista de reseñas de todos productos
-#       Ordenar de mayor a menor a los productos de acuerdo a su reseña general
-#       Mostrar los primeros 5 y los ultimos 5
-
-# # # PUNTO 3 # # #
-# # *Filtrar ventas que se devolvieron y no considerarlas
-# # *Al parecer no hay datos que sean de un año distinto a 2020
-# 1.1 Calcular total de ingresos mensuales
-#       Generar clusteres de la lista de ventas segun el mes
-#       Añadir precios de acuerdo a la id del producto en los clusteres generados
-#       Calcular el total de ingresos en cada cluster/mes
-# 1.2 Calcular ventas promedio mensuales
-#       Usar datos agrupados por mes de 1.1 
-#       Contar el numero de ventas de cada mes/cluster
-#       Obtener un promedio general de ventas    
-# 1.3 Calcular ventas totales anuales
-#       Usar datos agrupados por mes de 1.1 con precios
-#       Calcular el total de ingresos de las ventas
-# 1.4 Calcular meses con mas ventas
-#       Usar datos de 1.2
-#       Ordenar meses de mayor a menor
-#       Mostrar numero de ventas por mes
-
-# # Imprimir los primeros 10 prod.
-# lista_diez = lifestore_products[:10]
-# for producto in lista_diez:
-#     print(producto[2], '\n')
-
-# # Muestra los nombres de los primeros 10 productos
-# names = [row[1][:10] for row in lifestore_products]
-# for name in names:
-#     print(name)
-
-# #Ejemplo de comprension de listas
-# pares = [par for par in 
-#             [num**2 for num in range(0,11)] 
-#                 if par%2==0]
-# print(pares)
-
-# # sumatoria de los precios los primeros 10 prod.
-# suma = 0
-# for producto in lista_diez:
-#     # Obtener el precio del producto
-#     precio = producto[2]
-#     suma += precio
-
-# print('El valor de la suma de los primeros 10 prod: ', suma)
-# print('El valor promedio de los primeros 10 prod: ', suma/10)
-
 """
 Login
 credenciales:
 
 usuario:
-    angel
+    angelC
 contrasenia:
-    admin123
+    admindb321
 """
 
-
-
-
-"""
 
 usuarioAccedio = False
 intentos = 0
@@ -142,21 +35,156 @@ while not usuarioAccedio:
     contras = input('Contraseña: ')
     intentos += 1
     # Reviso si el par coincide
-    if usuario == 'angel' and contras == 'admin123':
+    if usuario == 'angelC' and contras == 'admindb321':
         usuarioAccedio = True
-        print('Hola de nuevo!')
+        print('\nHola de nuevo',usuario,'!')
     else:
-        # print('Tienes', 3 - intentos, 'intentos restantes')
         print(f'Tienes {3 - intentos} intentos restantes')
         if usuario == 'angel':
             print('Te equivocaste en la contraseña')
         else:
-            print(f'El usuario: "{usuario}" no esta registrado')
-            
-    if intentos == 3:
-        exit()
+            print(f'El usuario: "{usuario}" no esta registrado')           
+        
+        if intentos == 3:
+            exit()
 
-print('Solamente llegaste aca si ingresaste correctamente')
+# Ejecuta la funcion principal para contar las ventas
+ventas = ventasSorted()
+# Ejecuta la funcion principal para contar las busquedas
+busquedas=busquedasSorted()
 
-"""
+def printMenu():
+    print("\n")
+    print('Menu principal')
+    print(' 1. Consultar los 5 productos más vendidos')
+    print(' 2. Consultar los 10 productos más buscados')
+    print(' 3. Ver los productos menos vendidos por categoria')
+    print(' 4. Ver los productos menos buscados por categoria')
+    print(' 5. Consultar los productos con peor y mejor reseña')  
+    print(' 6. Ver el informe de ventas')
+    print(' 0. Salir')
 
+# Menu principal
+printMenu()
+menuMain = int(input("Ingresa una opción: "))
+while menuMain !=0:
+    if menuMain == 1:
+        # Resuelve el punto 1.1 del PUNTO 1
+        # Realiza un calculo del numero de ventas total sin considerar devoluciones
+        totalSales = 0
+        for ven in ventas:
+            totalSales+=ven[5]
+        print("\nHubo un total de",totalSales,"ventas satisfactorias")
+        print("\nTop de los 5 productos más vendidos")       
+        # Se ordena de acuerdo al numero de ventas de cada producto (mayor a menor)
+        ventas = sortList(ventas,5,True)
+        for i,v in enumerate(ventas[:5],start=1):
+            print(f"    {i}.- Las ventas del producto {v[1]} fueron {v[5]}")      
+    elif menuMain == 2:
+        # Resuelve el punto 1.2 del PUNTO 1
+        print("\nHubo un total de",len(lifestore_searches),"busquedas")
+        print("\nTop de los 10 productos más buscados")     
+        # Se ordena la lista de mayor a menor segun su numero de busquedas
+        busquedas=sortList(busquedas,5,True)
+        for i,s in enumerate(busquedas[:10],start=1):
+            print(f"    {i}.- Las busquedas del producto {s[1]} fueron {s[5]}")
+    elif menuMain == 3:
+        # # Se resuelve el punto 2.1 del PUNTO 1
+        # Se ordenan las ventas
+        ventas = sortList(ventas,5,True)
+        # Con la informacion de ventas se obtiene un diccionario que corresponde al tipo {categoria1: [venta1,venta2...], categoria2: [venta1,venta2...]...}            
+        categorias = categorizar(ventas)
+        print("\nProductos menos vendidos de",len(categorias),"categorias (mostrando hasta 5):\n")
+        # Usa la funcion para limpiar de productos sin ventas
+        categorias=limpiarCeros(categorias,5)        
+        # Se limpia el diccionario para dejar solo 5 productos por categoria y con menos ventas
+        menosVendidos = {cat:list(reversed(categorias[cat]))[:5] for cat in categorias}
+        # Se muestran hasta los 5 productos menos vendidos por categoria
+        for cat in menosVendidos:
+            print(f"Menos vendidos de la categoria {cat}:")
+            for i,v in enumerate(menosVendidos[cat],start=1):
+                print(f"    {i}.- {v[1]} ----------- {v[5]} ventas")
+    elif menuMain == 4:
+        # # Se resuelve el punto 2.2 del PUNTO 1
+        # Se ordenan las busquedas
+        busquedas=sortList(busquedas,5,True)
+        # Con la informacion de busquedas se obtiene un diccionario parecido al que se genero anteriormente
+        categorias = categorizar(busquedas)
+        print("\nProductos menos buscados de",len(categorias),"categorias (mostrando hasta 10):\n")
+        # Se limpian los renglones de productos que no tuvieron busquedas
+        categorias=limpiarCeros(categorias,5)       
+        # Se guarda una nueva lista con al menos 10 productos con menores busquedas por categoria 
+        menosBuscados = {cat:list(reversed(categorias[cat]))[:10] for cat in categorias}
+        # Se muestran los productos con menores busquedas por categoria
+        for cat in menosBuscados:
+            if len(menosBuscados[cat]) != 0:
+                print(f"Menos buscados de la categoria {cat}:")
+                for i,b in enumerate(menosBuscados[cat],start=1):
+                    print(f"    {i}.- {b[1] } ----------- {b[5]} busquedas")
+            else:
+                print("Sin busquedas para la categoria",cat)      
+    elif menuMain == 5:
+        # # Resuelve el PUNTO 2
+        #Se obtiene una lista de productos con su correspondiente reseña general
+        resProductos = reseniasProds()
+        print("\nLa cantidad de productos reseñados fue de",len(resProductos))
+        # Se ordena la lista con reseñas de acuerdo a esta de mayor a menor
+        resProductos = sortList(resProductos,5,True)
+        print("\nTop 5 mejores productos de acuerdo a su reseña")
+        # Se muestran los 5 productos con mejor reseña
+        for i,p_res in enumerate(resProductos[:5],start=1):
+            print(f"    {i}.- {p_res[1]} tiene una reseña de {p_res[5]}")
+        print("Top 5 peores productos de acuerdo a su reseña")
+        # Se muestran los 5 productos con peor reseña
+        for i,p_res in enumerate(list(reversed(resProductos))[:5],start=1):
+            print(f"    {i}.- {p_res[1]} tiene una reseña de {p_res[5]}")
+    elif menuMain == 6:
+        # Resuelve el PUNTO 3
+        print("\nInforme general de las ventas de LifeStore\n")
+        # La funcion ventasMeses obtiene un diccionario donde estan agrupadas las ventas por mes y se ordena con la funcion ordenaMeses
+        ventas_meses = ordenaMeses(ventasMeses())
+        # Se crea una lista para contener los ingresos mensuales
+        ingresos_meses=[]
+        cantVentas_meses = []
+        print('Ingresos Mensuales\n')
+        for mes in dict_meses:
+            totalMensual = 0
+            notVentas = False
+            try:
+                for venta in ventas_meses[mes]:
+                    totalMensual+=venta[5]
+                if totalMensual == 0:
+                    notVentas = True
+                    print('    Hubo devoluciones.',end=' ')
+            except:
+                notVentas = True
+            if notVentas:
+                print('    El mes',mes,'no tuvo ventas')
+                cantVentas_meses.append(0)
+            else:
+                print(f'    {mes} generó {totalMensual}.00 MXN de ingresos y hubo {len(ventas_meses[mes])} ventas')
+                cantVentas_meses.append(len(ventas_meses[mes]))
+            ingresos_meses.append(totalMensual)   
+
+        # Se obtiene el promedio de ingresos mensuales
+        promMensual=sum(ingresos_meses)/len(ingresos_meses) #Considerando 12 meses
+        print('\nEl promedio general de ingresos de ventas mensuales fue de',promMensual,'MXN')
+        print('\nEl total de ingresos generados en 2020 fué de',sum(ingresos_meses),'.00 MXN')
+        print('\nMeses con mas ventas')
+        cantVentas_meses = {key : cantVentas_meses[idx] for idx,key in enumerate(dict_meses)}
+        for i,it in enumerate(sorted(cantVentas_meses.items(),key=lambda x: x[1],reverse=True)[:5],start=1):
+            print(f'    {i}.- {it[0]} tuvo {it[1]} ventas')
+    else:
+        print('Ingrese una opción valida')
+    input('\nEsperando Enter para continuar...')
+    printMenu()
+    menuMain = int(input("Ingresa una opción: "))        
+
+# ob_datetime = datetime.strptime("21/05/2020",formato)
+# print("fecha:",ob_datetime.strftime(formato))
+
+# #Ejemplo de comprension de listas
+# pares = [par for par in 
+#             [num**2 for num in range(0,11)] 
+#                 if par%2==0]
+# print(pares)
