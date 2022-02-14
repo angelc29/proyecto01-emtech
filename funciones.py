@@ -1,11 +1,12 @@
 from lifestore_file import lifestore_searches, lifestore_sales, lifestore_products
 from datetime import datetime as dt
 
-# Ordena y devuelve una lista de listas l de acuerdo a un parametro en la posicion i 
+# Ordena y devuelve una lista de listas l de acuerdo a 
+# un parametro en la posicion i 
 def sortList(l,i,h_to_l):
     return sorted(l,reverse=h_to_l,key=lambda x:x[i])
 
-# Funcion para mostrar el diccionario 
+# Funcion para mostrar un diccionario 
 def showDict(dict):
     total=0
     for key in dict:
@@ -117,8 +118,6 @@ def reseniasProds():
         id_prod = prod[0]
         res = getResProm(id_prod)
         reseniasProds[idx].append(res)
-    # Elimina los producto que no obtuvieron reseñas generales por no tener ninguna venta y devuelve esta lista limpia
-    reseniasProds = [p_res for p_res in reseniasProds if p_res[5]!=0]
     return reseniasProds   
 
 # Obtiene la reseña promedio de un solo producto dada su id_prod 

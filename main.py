@@ -20,7 +20,6 @@ contrasenia:
     admindb321
 """
 
-
 usuarioAccedio = False
 intentos = 0
 
@@ -50,8 +49,12 @@ while not usuarioAccedio:
 
 # Ejecuta la funcion principal para contar las ventas
 ventas = ventasSorted()
+sinVentas = [venta for venta in ventas if venta[5]==0]  
 # Ejecuta la funcion principal para contar las busquedas
 busquedas=busquedasSorted()
+sinBusquedas = [bus for bus in busquedas if bus[5] == 0]
+#Se obtiene una lista de productos con su correspondiente reseña general
+resProductos = reseniasProds()
 
 def printMenu():
     print("\n")
@@ -62,6 +65,7 @@ def printMenu():
     print(' 4. Ver los productos menos buscados por categoria')
     print(' 5. Consultar los productos con peor y mejor reseña')  
     print(' 6. Ver el informe de ventas')
+    print(' 7. Estrategia Sugerida')
     print(' 0. Salir')
 
 # Menu principal
@@ -79,7 +83,7 @@ while menuMain !=0:
         # Se ordena de acuerdo al numero de ventas de cada producto (mayor a menor)
         ventas = sortList(ventas,5,True)
         for i,v in enumerate(ventas[:5],start=1):
-            print(f"    {i}.- Las ventas del producto {v[1]} fueron {v[5]}")      
+            print(f"    {i}.- Las ventas del producto {v[1]} fueron {v[5]}")        
     elif menuMain == 2:
         # Resuelve el punto 1.2 del PUNTO 1
         print("\nHubo un total de",len(lifestore_searches),"busquedas")
@@ -96,7 +100,7 @@ while menuMain !=0:
         categorias = categorizar(ventas)
         print("\nProductos menos vendidos de",len(categorias),"categorias (mostrando hasta 5):\n")
         # Usa la funcion para limpiar de productos sin ventas
-        categorias=limpiarCeros(categorias,5)        
+        categorias=limpiarCeros(categorias,5)            
         # Se limpia el diccionario para dejar solo 5 productos por categoria y con menos ventas
         menosVendidos = {cat:list(reversed(categorias[cat]))[:5] for cat in categorias}
         # Se muestran hasta los 5 productos menos vendidos por categoria
@@ -124,19 +128,19 @@ while menuMain !=0:
             else:
                 print("Sin busquedas para la categoria",cat)      
     elif menuMain == 5:
-        # # Resuelve el PUNTO 2
-        #Se obtiene una lista de productos con su correspondiente reseña general
-        resProductos = reseniasProds()
-        print("\nLa cantidad de productos reseñados fue de",len(resProductos))
+        # # Resuelve el PUNTO 2 
+        # Elimina los producto que no obtuvieron reseñas generales por no tener ninguna venta y devuelve esta lista limpia
+        resProductosCpy = [p_res for p_res in resProductos if p_res[5]!=0]      
+        print("\nLa cantidad de productos reseñados fue de",len(resProductosCpy))
         # Se ordena la lista con reseñas de acuerdo a esta de mayor a menor
-        resProductos = sortList(resProductos,5,True)
+        resProductosCpy = sortList(resProductosCpy,5,True)
         print("\nTop 5 mejores productos de acuerdo a su reseña")
         # Se muestran los 5 productos con mejor reseña
-        for i,p_res in enumerate(resProductos[:5],start=1):
+        for i,p_res in enumerate(resProductosCpy[:5],start=1):
             print(f"    {i}.- {p_res[1]} tiene una reseña de {p_res[5]}")
         print("Top 5 peores productos de acuerdo a su reseña")
         # Se muestran los 5 productos con peor reseña
-        for i,p_res in enumerate(list(reversed(resProductos))[:5],start=1):
+        for i,p_res in enumerate(list(reversed(resProductosCpy))[:5],start=1):
             print(f"    {i}.- {p_res[1]} tiene una reseña de {p_res[5]}")
     elif menuMain == 6:
         # Resuelve el PUNTO 3
@@ -174,11 +178,20 @@ while menuMain !=0:
         cantVentas_meses = {key : cantVentas_meses[idx] for idx,key in enumerate(dict_meses)}
         for i,it in enumerate(sorted(cantVentas_meses.items(),key=lambda x: x[1],reverse=True)[:5],start=1):
             print(f'    {i}.- {it[0]} tuvo {it[1]} ventas')
+    elif menuMain == 7:
+        # Se realiza una interseccion entre productos sin ventas y sin busquedas para saber que productos estan mas olvidados
+        rezagados = [prod for prod in sinVentas if prod in sinBusquedas]
+        # Se ordenan de acuerdo a su stock
+        rezagados = sortList(rezagados,4,True)
+        print('\nHay un total de',len(rezagados),'productos sin busquedas y sin ventas')
+        print('\nLa sugerencia es promocionar, rematar y por consiguiente liberar el espacio que ocupan estos productos rezagados, comenzando con los que mayor stock tienen\n')
+        for i,r in enumerate(rezagados,start=1):
+            print(f'  {i}.- {r[1]}\n        Categoría: {r[3]}\n        Existencias: {r[4]}')
     else:
         print('Ingrese una opción valida')
     input('\nEsperando Enter para continuar...')
     printMenu()
-    menuMain = int(input("Ingresa una opción: "))        
+    menuMain = int(input("Ingresa una opción: "))   
 
 # ob_datetime = datetime.strptime("21/05/2020",formato)
 # print("fecha:",ob_datetime.strftime(formato))
