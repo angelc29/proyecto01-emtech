@@ -1,6 +1,5 @@
 from lifestore_file import lifestore_searches, lifestore_sales, lifestore_products
 from datetime import datetime as dt
-#import funciones #De esta manera hay que anteponer 'funciones' antes de usar cada una
 from funciones import *
 """
 La info de lifestore_file:
@@ -190,12 +189,3 @@ while menuMain !=0:
     input('\nEsperando Enter para continuar...')
     printMenu()
     menuMain = int(input("Ingresa una opción: "))   
-
-# ob_datetime = datetime.strptime("21/05/2020",formato)
-# print("fecha:",ob_datetime.strftime(formato))
-
-# #Ejemplo de comprension de listas
-# pares = [par for par in 
-#             [num**2 for num in range(0,11)] 
-#                 if par%2==0]
-# print(pares)
