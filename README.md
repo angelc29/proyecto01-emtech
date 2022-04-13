@@ -19,7 +19,7 @@ $ cd proyecto01-emtech
 $ python main.py
 ```
 3. Las credenciales por defecto para continuar son:
-  - Usuario: angelC
-  - Contraseña: admindb321
+  - Usuario: **angelC**
+  - Contraseña: **admindb321**
 
-4. A continuación veremos como se desplega una lista con todas las tareas que puede desplegar el programa.
+4. A continuación veremos como se desplega una lista con todas las tareas que puede realizar el programa.
